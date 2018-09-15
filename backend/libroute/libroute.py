@@ -1,5 +1,6 @@
 from util import Point, Solution
-from libroute import union_find, traveling_salesman
+import union_find
+import traveling_salesman
 
 def eucl(a, b):
     return (((a.lat - b.lat) ** 2) + ((a.lng - b.lng) ** 2)) ** 0.5
