@@ -52,4 +52,3 @@ def get_routes(start, people, vehicle_sizes):
     for clust in clusters:
         sol.routes.append(traveling_salesman(start, clust))
     return sol
-
