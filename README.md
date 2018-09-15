@@ -1,5 +1,10 @@
 # ResQueue
 ## Making the world a better place
 
-<img src="logo.png" alt="ResQueue Logo"/>
 
+Launch with
+```
+cd ResQueue
+sh launch.sh
+```
+<img src="logo.png" alt="ResQueue Logo"/>
