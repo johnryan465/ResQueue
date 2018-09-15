@@ -1,14 +1,20 @@
 from flask import Flask, request
 from pymongo import MongoClient
+from bson import ObjectId
 import datetime
 import json
 client = MongoClient("***REMOVED***")
-db = client.resqueue    #Select the database
-
+db = client.resqueue
 
 people_table = db.people
 vehicles_table = db.vehicles
 app = Flask(__name__)
+
+class JSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, ObjectId):
+            return str(o)
+        return json.JSONEncoder.default(self, o)
 
 @app.route("/")
 def hello():
@@ -18,12 +24,17 @@ def hello():
 def people():
     if request.method == 'POST':
         data = request.form
-        return people_table.insert({'location': [data['lat'],data['long'] ], 'priority': data['priority'], 'note': data['note'], 'status':0,'time':str(datetime.datetime.now())})
+        return str(people_table.insert({'location': [data['latitude'],data['longitude'] ], 'priority': data['priority'], 'note': data['note'], 'status':0,'time':str(datetime.datetime.now())}))
     if request.method == 'GET':
         l = []
         for person in people_table.find():
-            l.append(str(person))
+            person['time'] = str(person['time'])
+            person['_id'] =  str(person['_id'])
+            l.append(person)
+
+
         return json.dumps(l)
+
 @app.route('/api/vehicles', methods = ['GET','PUT','POST'])
 def vehicles():
     if request.method == 'POST':
@@ -36,5 +47,5 @@ def vehicles():
         return vehicles_db.update({'_id': ObjectId(data[id])}, {'name': data['name'], 'size': data['size'], 'quantity': data['quantity']})
 
 
-def get_routes():
-    vehicles_sizes = []
+#ef get_routes():
+#    vehicles_sizes = []
