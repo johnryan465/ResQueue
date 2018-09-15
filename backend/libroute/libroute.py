@@ -41,6 +41,3 @@ def get_routes(start, people, vehicle_sizes):
             return None
     dist = get_dist_matrix([start] + people)
     return get_clusters(people, vehicle_sizes, dist)
-
-
-
