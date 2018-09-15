@@ -1,5 +1,5 @@
 from util import Point, Solution
-from libroute import union_find
+from libroute import union_find, traveling_salesman
 
 def eucl(a, b):
     return (((a.lat - b.lat) ** 2) + ((a.lng - b.lng) ** 2)) ** 0.5
@@ -37,11 +37,6 @@ def get_clusters(people, vehicle_sizes, dists):
     unsaved = [people[p - 1] for p in range(1, len(people) + 1) if uf.is_alone(p)]
     return clusters, unsaved
 
-def traveling_salesman(start, points):
-    from random import shuffle
-    shuffle(points)
-    return [start] + points
-
 def get_routes(start, people, vehicle_sizes):
     for vs in vehicle_sizes:
         if vs < 2:
@@ -50,5 +45,5 @@ def get_routes(start, people, vehicle_sizes):
     sol = Solution()
     clusters, sol.unsaved = get_clusters(people, vehicle_sizes, dist)
     for clust in clusters:
-        sol.routes.append(traveling_salesman(start, clust))
+        sol.routes.append(traveling_salesman.traveling_salesman(start, clust))
     return sol
