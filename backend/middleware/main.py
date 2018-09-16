@@ -5,6 +5,9 @@ from util import Point
 from libroute import libroute
 import datetime
 import json
+import requests
+
+
 client = MongoClient("***REMOVED***")
 db = client.resqueue
 
@@ -22,7 +25,14 @@ def hello():
 def people():
     if request.method == 'POST':
         data = request.get_json()
-        return str(people_table.insert({'location': [data['lat'],data['lng'] ], 'priority': data['priority'], 'note': data['note'], 'status':0,'time':str(datetime.datetime.now())}))
+        url = "***REMOVED***" + str(data['lat']) + "/"+ str(data['lng'])+ "/alerts.json"
+        response = requests.request("GET", url)
+        rep = json.loads(response.text)
+        severity = 1000000
+        if 'alerts' in rep:
+            for alert in rep['alerts']:
+                severity = min(severity,alert['severity_cd'])
+        return str(people_table.insert({'location': [data['lat'],data['lng'] ], 'priority': data['priority'], 'note': data['note'], 'status':0,'time':str(datetime.datetime.now()),'severity':severity}))
     if request.method == 'GET':
         l = []
         for person in people_table.find():
@@ -59,7 +69,6 @@ def vehicles(id):
 def vehicles_up(id):
     data = request.get_json()
     return str(admin_table.update({'name': 'start'}, {'location': [data['lat'],data['lat']]}))
-
 
 @app.route('/api/routes', methods = ['GET'])
 def get_routes_wrapper():
