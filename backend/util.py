@@ -4,6 +4,12 @@ class Point:
         self.lat = lat  # int
         self.lng = lng  # int
 
+    def get_serialisable(self):
+        return {
+            'latitude': self.lat,
+            'longitude': self.lng
+        }
+
     def __str__(self):
         return '({}, {})'.format(self.lat, self.lng)
 
