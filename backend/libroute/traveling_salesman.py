@@ -1,4 +1,6 @@
-
+import requests
+import json
+from util import Point
 def tsp_random(start, points, dists):
     from random import shuffle
     shuffle(points)
@@ -39,6 +41,25 @@ def tsp_greedy(start, points, dists):
             best_path = best_path[i:] + best_path[:i]
             break
     return [pts[p] for p in best_path]
+
+
+def tsp_osrm(start, points, dists, start_point):
+    url = "http://pleaseresqueue.me:5000/trip/v1/driving/"
+    url += str(start_point.lat) + "," + str(start_point.lng) + ";"
+    for point in points:
+        print(point)
+        url += str(point.lat) + "," + str(point.lng) + ";"
+    url = url[:-1]
+    url += "?source=first&steps=false&geometries=polyline&overview=false&annotations=false"
+    print(url)
+    response = requests.request("GET", url)
+    rep = json.loads(response.text)
+    ans = []
+
+    for waypoint in rep['waypoints']:
+        ans.append(Point(waypoint['location'][0],waypoint['location'][1]))
+
+    return ans
 
 #Use OSRM instead
 
