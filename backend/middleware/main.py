@@ -18,7 +18,7 @@ def hello():
 @app.route('/api/points', methods = ['GET','POST'])
 def people():
     if request.method == 'POST':
-        data = request.form
+        data = request.data
         return str(people_table.insert({'location': [data['latitude'],data['longitude'] ], 'priority': data['priority'], 'note': data['note'], 'status':0,'time':str(datetime.datetime.now())}))
     if request.method == 'GET':
         l = []
@@ -49,5 +49,5 @@ def vehicles(id):
         return json.dumps(vehicle)
 
     if request.method == 'PUT':
-        data = request.form
+        data = request.data
         return str(vehicles_db.update({'_id': ObjectId(id)}, {'name': data['name'], 'size': data['size'], 'quantity': data['quantity']}))
