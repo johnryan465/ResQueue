@@ -10,15 +10,25 @@ export default class Form extends React.Component {
       priority: 1,
       submitted: false,
       longitude: null,
-      latitude: null
+      latitude: null,
+      manualLocation: false
     }
     this.onSubmit = this.onSubmit.bind(this)
     this.onChange = this.onChange.bind(this)
+    this.toggleManualLocation = this.toggleManualLocation.bind(this)
   }
   onSubmit(event) {
+    let lng = this.props.coords.longitude
+    if(this.state.manualLocation && this.state.longitude) {
+      lng = this.state.longitude
+    }
+    let lat = this.props.coords.latitude
+    if(this.state.manualLocation && this.state.latitude) {
+      lat = this.state.latitude
+    }
     axios.post("/api/points", {
-      lng: this.state.longitude || this.props.coords.longitude,
-      lat: this.state.latitude || this.props.coords.latitude,
+      lng,
+      lat,
       priority: this.state.priority,
       note: this.state.note
     }).then(() => {
@@ -31,6 +41,9 @@ export default class Form extends React.Component {
     let value = event.target.value
     this.setState({ [name]: value })
   }
+  toggleManualLocation() {
+    this.setState({ manualLocation: !this.state.manualLocation })
+  }
   render() {
     if(this.state.submitted) {
       return <SuccessDisplay />
@@ -38,10 +51,17 @@ export default class Form extends React.Component {
     return(
       <form onSubmit={this.onSubmit} className="resqueue-form">
       <h4>Need our assistance?</h4>
-        <div className="form-group">
-          <label>Coordinates></label>
-          <input onChange={this.onChange} value={this.state.longitude} name="longitude" className="form-control" />
+      <div className="form-check">
+        <input onChange={this.toggleManualLocation} value={this.state.manualLocation} className="form-check-input" type="checkbox" />
+        <label className="form-check-label">Would you like to enter your location manually?</label>
+      </div>
+        <div className="form-group" hidden={!this.state.manualLocation}>
+          <label>Latitude</label>
           <input onChange={this.onChange} value={this.state.latitude} name="latitude" className="form-control" />
+        </div>
+        <div className="form-group" hidden={!this.state.manualLocation}>
+          <label>Longitude</label>
+          <input onChange={this.onChange} value={this.state.longitude} name="longitude" className="form-control" />
         </div>
         <div className="form-group">
           <label>Note</label>
