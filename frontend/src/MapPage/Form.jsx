@@ -9,8 +9,8 @@ export default class Form extends React.Component {
       note: "",
       priority: 1,
       submitted: false,
-      longitude: null,
-      latitude: null,
+      longitude: "",
+      latitude: "",
       manualLocation: false
     }
     this.onSubmit = this.onSubmit.bind(this)
@@ -26,6 +26,7 @@ export default class Form extends React.Component {
     if(this.state.manualLocation && this.state.latitude) {
       lat = this.state.latitude
     }
+    console.log(lng, lat, this.state.priority, this.state.note)
     axios.post("/api/points", {
       lng,
       lat,
