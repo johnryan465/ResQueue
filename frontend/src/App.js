@@ -1,14 +1,23 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import MapPage from './MapPage'
+import AdminPanel from './AdminPanel'
+import EditVehiclePage from './EditVehiclePage'
+import AdminMap from './AdminMap'
+
+import 'bootstrap/dist/css/bootstrap.css'
+import './App.css'
 
 class App extends Component {
   render() {
     return (
       <Router>
         <Switch>
-          <Route path="/route-1" render={() => <h1>Route 1</h1>} />
-          <Route path="/route-2" render={() => <h1>Route 2</h1>} />
-          <Route path="/route-3" render={() => <h1>Route 3</h1>} />
+          <Route path="/map" component={ MapPage } />
+          <Route path="/admin/vehicles" exact component={ AdminPanel } />
+          <Route path="/admin/vehicles/:id" component={ EditVehiclePage } />
+          <Route path="/admin/map" component={ AdminMap } />
+          <Route path="/*" render={() => <h1>404</h1>} />
         </Switch>
       </Router>
     );
