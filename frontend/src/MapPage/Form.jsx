@@ -18,7 +18,7 @@ export default class Form extends React.Component {
   onSubmit(event) {
     axios.post("/api/points", {
       lng: this.state.longitude || this.props.coords.longitude,
-      lat: this.state.latitude || this.props.coords.latitide,
+      lat: this.state.latitude || this.props.coords.latitude,
       priority: this.state.priority,
       note: this.state.note
     }).then(() => {
