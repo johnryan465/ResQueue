@@ -68,7 +68,7 @@ def vehicles(id):
 @app.route('/api/start', methods = ['PUT'])
 def vehicles_up(id):
     data = request.get_json()
-    return str(admin_table.update({'name': 'start'}, {'location': [data['lat'],data['lat']]}))
+    return str(admin_table.update({'name': 'start'}, {'location': [data['lat'],data['lng']]}))
 
 @app.route('/api/routes', methods = ['GET'])
 def get_routes_wrapper():
@@ -86,4 +86,5 @@ def get_routes_wrapper():
         person['_id'] =  str(person['_id'])
         points.append(Point(person['location'][0],person['location'][1]))
     print(1)
+    print(2)
     return json.dumps(libroute.get_routes(start,points,vs).get_list())
