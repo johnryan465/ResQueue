@@ -1,5 +1,5 @@
-# ResQueue
-## Making the world a better place
+<img src="logo.png" alt="ResQueue Logo"/>
+# ResQueue - Making the world a better place
 
 Clone the repo then launch with
 ```
@@ -16,5 +16,3 @@ git remote add live ssh://hackmit@23.96.62.224/~/repo.git
 git push live master
 ```
 
-Testing[''
-<img src="logo.png" alt="ResQueue Logo"/>
