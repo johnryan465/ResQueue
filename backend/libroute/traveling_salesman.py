@@ -46,22 +46,16 @@ def tsp_greedy(start, points, dists):
 def tsp_osrm(start, points, dists, start_point):
     url = "http://pleaseresqueue.me:5000/trip/v1/driving/"
     url += str(start_point.lng) + "," + str(start_point.lat) + ";"
-    print("point")
     for point in points:
-        print(point)
         url += str(point.lng) + "," + str(point.lat) + ";"
     url = url[:-1]
     url += "?source=first&steps=false&overview=false"
-    print(url)
     response = requests.request("GET", url)
-    print(response.text)
     rep = json.loads(response.text)
     ans = []
 
     for waypoint in rep['waypoints']:
-        ans.append(Point(waypoint['location'][1],waypoint['location'][0]))
-    print("ans")
-    print(ans)
+        ans.append(Point(waypoint['location'][1],waypoint['location'][0 ]))
     return ans
 
 #Use OSRM instead
