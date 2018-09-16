@@ -2,19 +2,11 @@ from util import Point, Solution
 try:
     import union_find
     import traveling_salesman
+    import dist_matrix
 except ImportError:
     from libroute import union_find
     from libroute import traveling_salesman
-
-def eucl(a, b):
-    return (((a.lat - b.lat) ** 2) + ((a.lng - b.lng) ** 2)) ** 0.5
-
-def get_dist_matrix(points):
-    dist = [[0] * len(points) for _ in range(len(points))]
-    for i in range(len(points)):
-        for j in range(i + 1, len(points)):
-            dist[i][j] = dist[j][i] = eucl(points[i], points[j])
-    return dist
+    from libroute import dist_matrix
 
 def get_clusters(people, vehicle_sizes, dists):
     vsizes = sorted(vehicle_sizes, reverse=True)
@@ -46,7 +38,7 @@ def get_routes(start, people, vehicle_sizes):
     for vs in vehicle_sizes:
         if vs < 2:
             return None
-    dist = get_dist_matrix([start] + people)
+    dist = dist_matrix.get_dist_matrix([start] + people)
     clusters, unsaved_ind = get_clusters(people, vehicle_sizes, dist)
     sol = Solution()
     sol.unsaved = [people[k - 1] for k in unsaved_ind]
