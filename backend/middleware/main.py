@@ -55,24 +55,24 @@ def vehicles(id):
         return str(vehicles_table.update({'_id': ObjectId(id)}, {'name': data['name'], 'size': data['size'], 'quantity': data['quantity']}))
 
 @app.route('/api/start', methods = ['PUT'])
-def vehicles(id):
+def vehicles_up(id):
     data = request.get_json()
     return str(admin_table.update({'name': 'start'}, {'location': [data['lat'],data['lat']]}))
 
 
 @app.route('/api/routes', methods = ['GET'])
 def get_routes_wrapper():
-	start_entry = admin_table.find_one({'name':'start'})
-	start = Point(start_entry['location'][0],start_entry['location'][1])
+    start_entry = admin_table.find_one({'name':'start'})
+    start = Point(start_entry['location'][0],start_entry['location'][1])
     vs = []
     for vehicles in vehicles_table.find():
-		for i in range(0, vehicles['quantity']):
-			vs.append(vehicles['size'])
+        for i in range(0, vehicles['quantity']):
+            vs.append(vehicles['size'])
 
-	points = []
-	for person in people_table.find({'status':0}):
-		person['time'] = str(person['time'])
-		person['_id'] =  str(person['_id'])
-		points.append(Point(person['location'][0],person['location'][1]).get_serialisable())
+    points = []
+    for person in people_table.find({'status':0}):
+        person['time'] = str(person['time'])
+        person['_id'] =  str(person['_id'])
+        points.append(Point(person['location'][0],person['location'][1]).get_serialisable())
 
     return json.dumps(get_routes(start,points,vs))
