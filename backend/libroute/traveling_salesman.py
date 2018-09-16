@@ -34,11 +34,10 @@ def tsp_greedy(start, points, dists):
             min_cost = cost
             best_path = path
     # Rotate the list so 0 is the first element
-    for i in xrange(len(best_path)):
+    for i in range(len(best_path)):
         if best_path[i] == 0:
             best_path = best_path[i:] + best_path[:i]
             break
     return [pts[p] for p in best_path]
 
 traveling_salesman = tsp_greedy
-

@@ -1,8 +1,8 @@
 
 class Point:
     def __init__(self, lat, lng):
-        self.lat = lat  # int
-        self.lng = lng  # int
+        self.lat = int(lat)  # int
+        self.lng = int(lng)  # int
 
     def get_serialisable(self):
         return {

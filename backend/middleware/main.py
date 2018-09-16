@@ -75,6 +75,6 @@ def get_routes_wrapper():
     for person in people_table.find({'status':0}):
         person['time'] = str(person['time'])
         person['_id'] =  str(person['_id'])
-        points.append(Point(person['location'][0],person['location'][1]).get_serialisable())
+        points.append(Point(person['location'][0],person['location'][1]))
 
     return str(libroute.get_routes(start,points,vs))
