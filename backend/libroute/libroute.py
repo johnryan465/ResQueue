@@ -16,7 +16,9 @@ def get_clusters(people, vehicle_sizes, dists):
     edges = []
     for i in range(1, len(people) + 1):
         for j in range(i + 1, len(people) + 1):
-            edges.append((dists[i][j], i, j))
+            scaled_dist = people[i - 1].scale_with_urgency(dists[i][j])
+            scaled_dist = people[j - 1].scale_with_urgency(scaled_dist)
+            edges.append((scaled_dist, i, j))
     edges = sorted(edges, reverse=True)
     clusters = []
     cluster = []

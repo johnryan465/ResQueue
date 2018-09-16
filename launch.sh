@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 sudo pkill -9 python
-python3 backend/main.py
+cd frontend
+nohup python backend/main.py &>2 &
+yarn start
