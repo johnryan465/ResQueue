@@ -1,3 +1,44 @@
+* {
+  font-family: Assistant;
+}
+
+.landing-header {
+  background-color: #ecdcf2;
+  min-height: 100vh;
+}
+
+.success-display {
+  margin: 10% 0;
+  text-align: center;
+}
+
+.success-display > span {
+  font-size: 4em;
+}
+
+.landing-header__content {
+  width: 80%;
+  margin: 0 auto;
+  height: 100%;
+}
+
+.landing-header__button {
+  display: block;
+  font-size: 130%;
+  padding: 15px;
+  background-color: #ea4454;
+  transition: background-color .3s;
+  border-radius: 3px;
+  width: 60%;
+  margin: 0 auto;
+  color: white;
+}
+
+.landing-header__button:hover {
+  text-decoration: none;
+  background-color: #e54e5c;
+  color: white;
+}
 
 .nopadding {
   padding: 0 !important;
