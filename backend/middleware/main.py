@@ -87,8 +87,8 @@ def get_routes_wrapper():
         points.append(Point(
             person['location'][0],
             person['location'][1],
-            person['priority'],
-            person['severity']))
+            person['priority'] if 'priority' in person else 0,
+            person['severity'] if 'severity' in person else 0))
     print(1)
     print(2)
     return json.dumps(libroute.get_routes(start,points,vs).get_list())
