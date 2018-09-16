@@ -15,7 +15,7 @@ const MapWrapper = compose(
     mapElement: <div style={{ height: `100%` }} />,
   }), withScriptjs, withGoogleMap, lifecycle({
     componentDidMount() {
-      /*const DirectionsService = new google.maps.DirectionsService();
+      const DirectionsService = new google.maps.DirectionsService();
       this.setState({ directions: [] })
 
       for(var index in this.props.routes) {
@@ -36,24 +36,7 @@ const MapWrapper = compose(
               console.error(`error fetching directions ${result}`);
             }
           });
-      }*/
-      this.setState({ directions: [] })
-      const DirectionsService = new google.maps.DirectionsService();
-      DirectionsService.route({
-        origin: new google.maps.LatLng(42.4583924, -71.196702),
-        destination: new google.maps.LatLng(42.451019, -71.109161),
-        travelMode: google.maps.TravelMode.DRIVING,
-      }, (result, status) => {
-        if (status === google.maps.DirectionsStatus.OK) {
-          let directions = this.state.directions
-          directions.push(result)
-          this.setState({
-            directions,
-          });
-        } else {
-          console.error(`error fetching directions ${result}`);
-        }
-      });
+      }
     }
   }))((props) => {
   let directions = null
