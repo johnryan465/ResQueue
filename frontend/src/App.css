@@ -2,6 +2,10 @@
   font-family: Assistant;
 }
 
+.landing-logo {
+  max-width: 100%;
+}
+
 .landing-header {
   background-color: #ecdcf2;
   min-height: 100vh;
