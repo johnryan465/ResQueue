@@ -2,6 +2,7 @@ from flask import Flask, request
 from pymongo import MongoClient
 from bson import ObjectId
 from util import Point
+from libroute import libroute
 import datetime
 import json
 client = MongoClient("***REMOVED***")
@@ -63,11 +64,12 @@ def vehicles_up(id):
 @app.route('/api/routes', methods = ['GET'])
 def get_routes_wrapper():
     start_entry = admin_table.find_one({'name':'start'})
+    print(start_entry)
     start = Point(start_entry['location'][0],start_entry['location'][1])
     vs = []
     for vehicles in vehicles_table.find():
-        for i in range(0, vehicles['quantity']):
-            vs.append(vehicles['size'])
+        for i in range(0, int(vehicles['quantity'])):
+            vs.append(int(vehicles['size']))
 
     points = []
     for person in people_table.find({'status':0}):
@@ -75,4 +77,4 @@ def get_routes_wrapper():
         person['_id'] =  str(person['_id'])
         points.append(Point(person['location'][0],person['location'][1]).get_serialisable())
 
-    return json.dumps(get_routes(start,points,vs))
+    return str(libroute.get_routes(start,points,vs))
