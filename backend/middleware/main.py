@@ -29,19 +29,25 @@ def people():
             l.append(person)
         return json.dumps(l)
 
-@app.route('/api/vehicles/<id>', methods = ['GET','PUT','POST'])
-def vehicles(id):
+@app.route('/api/vehicles', methods = ['GET','POST'])
+def new_veh():
     if request.method == 'POST':
         data = request.form
         return str(vehicles_table.insert({'name': data['name'], 'size': data['size'], 'quantity': data['quantity']}))
-
     if request.method == 'GET':
         l = []
         for vehicles in vehicles_table.find():
             vehicles['_id'] =  str(vehicles['_id'])
-            l.append(person)
+            l.append(vehicles)
         return json.dumps(l)
+
+@app.route('/api/vehicles/<id>', methods = ['GET','PUT'])
+def vehicles(id):
+    if request.method == 'GET':
+        vehicle = vehicles_table.find_one({'_id':ObjectId(id)})
+        vehicle['_id'] =  str(vehicle['_id'])
+        return json.dumps(vehicle)
 
     if request.method == 'PUT':
         data = request.form
-        return str(vehicles_db.update({'_id': ObjectId(data[id])}, {'name': data['name'], 'size': data['size'], 'quantity': data['quantity']}))
+        return str(vehicles_db.update({'_id': ObjectId(id)}, {'name': data['name'], 'size': data['size'], 'quantity': data['quantity']}))
