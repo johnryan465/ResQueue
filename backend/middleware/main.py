@@ -50,4 +50,4 @@ def vehicles(id):
 
     if request.method == 'PUT':
         data = request.get_json()
-        return str(vehicles_db.update({'_id': ObjectId(id)}, {'name': data['name'], 'size': data['size'], 'quantity': data['quantity']}))
+        return str(vehicles_table.update({'_id': ObjectId(id)}, {'name': data['name'], 'size': data['size'], 'quantity': data['quantity']}))
