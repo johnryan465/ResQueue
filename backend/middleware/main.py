@@ -77,4 +77,4 @@ def get_routes_wrapper():
         person['_id'] =  str(person['_id'])
         points.append(Point(person['location'][0],person['location'][1]))
 
-    return str(libroute.get_routes(start,points,vs))
+    return json.dumps(libroute.get_routes(start,points,vs).get_list())
