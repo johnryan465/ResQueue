@@ -36,10 +36,10 @@ def get_clusters(people, vehicle_sizes, dists):
         uf.join(u, v)
         cluster = uf.get_cluster(u)
         if len(cluster) == vsizes[-1]:
-            clusters.append([people[p - 1] for p in cluster])
+            clusters.append(cluster[:])
             vsizes.pop()
             uf.join(0, u)
-    unsaved = [people[p - 1] for p in range(1, len(people) + 1) if uf.is_alone(p)]
+    unsaved = [p for p in range(1, len(people) + 1) if uf.is_alone(p)]
     return clusters, unsaved
 
 def get_routes(start, people, vehicle_sizes):
@@ -47,8 +47,11 @@ def get_routes(start, people, vehicle_sizes):
         if vs < 2:
             return None
     dist = get_dist_matrix([start] + people)
+    clusters, unsaved_ind = get_clusters(people, vehicle_sizes, dist)
     sol = Solution()
-    clusters, sol.unsaved = get_clusters(people, vehicle_sizes, dist)
-    for clust in clusters:
-        sol.routes.append(traveling_salesman.traveling_salesman(start, clust))
+    sol.unsaved = [people[k - 1] for k in unsaved_ind]
+    for clust_ind in clusters:
+        route = traveling_salesman.traveling_salesman(0, clust_ind, dist)
+        sol.routes.append([start] + [people[k - 1] for k in route[1:]])
     return sol
+
