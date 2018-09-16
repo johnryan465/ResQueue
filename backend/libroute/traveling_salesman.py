@@ -50,9 +50,10 @@ def tsp_osrm(start, points, dists, start_point):
         print(point)
         url += str(point.lat) + "," + str(point.lng) + ";"
     url = url[:-1]
-    url += "?source=first&steps=false&geometries=polyline&overview=false&annotations=false"
+    url += "?source=first&steps=false&overview=false"
     print(url)
     response = requests.request("GET", url)
+    print(response.text)
     rep = json.loads(response.text)
     ans = []
 

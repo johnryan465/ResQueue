@@ -81,9 +81,9 @@ def get_routes_wrapper():
             vs.append(int(vehicles['size']))
 
     points = []
-    for person in people_table.find({'status':0}):
+    for person in people_table.find():
         person['time'] = str(person['time'])
         person['_id'] =  str(person['_id'])
         points.append(Point(person['location'][0],person['location'][1]))
-
+    print(1)
     return json.dumps(libroute.get_routes(start,points,vs).get_list())

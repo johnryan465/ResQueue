@@ -42,7 +42,10 @@ def get_routes(start, people, vehicle_sizes):
     clusters, unsaved_ind = get_clusters(people, vehicle_sizes, dist)
     sol = Solution()
     sol.unsaved = [people[k - 1] for k in unsaved_ind]
+    print(people)
     for clust_ind in clusters:
+        print(3)
+        print(clust_ind)
         cluster_points = [people[idx-1] for idx in clust_ind]
         route = traveling_salesman.tsp_osrm(0, cluster_points, dist, start)
         sol.routes.append(route[:])
