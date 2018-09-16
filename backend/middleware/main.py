@@ -32,7 +32,7 @@ def people():
 @app.route('/api/vehicles', methods = ['GET','POST'])
 def new_veh():
     if request.method == 'POST':
-        data = request.form
+        data = request.data
         return str(vehicles_table.insert({'name': data['name'], 'size': data['size'], 'quantity': data['quantity']}))
     if request.method == 'GET':
         l = []
