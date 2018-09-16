@@ -21,6 +21,11 @@ class Solution:
         self.unmatched = []  # list[Point]
         self.routes = []  # list[list[Point]]
 
+    def get_list(self):
+        f = list(list(k.get_serialisable() for k in r ) for r in self.routes)
+        print(f)
+        return f
+
     def __str__(self):
         unmat = 'Unmatched: {}\n'.format(str(self.unmatched))
         routes = 'Routes:\n' + '\n'.join(str(r) for r in self.routes)
