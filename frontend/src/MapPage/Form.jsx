@@ -8,16 +8,19 @@ export default class Form extends React.Component {
     this.state = {
       note: "",
       priority: 1,
-      submitted: false
+      submitted: false,
+      longitude: props.coords.longitude,
+      latitude: props.coords.latitude
     }
     this.onSubmit = this.onSubmit.bind(this)
     this.onChange = this.onChange.bind(this)
   }
   onSubmit(event) {
     axios.post("/api/points", {
-      lng: this.props.coords.longitude,
-      lat: this.props.coords.latitude,
-      ...this.state
+      lng: this.state.longitude,
+      lat: this.state.latitude,
+      priority: this.state.priority,
+      note: this.state.note
     }).then(() => {
       this.setState({ submitted: true })
     })
@@ -35,6 +38,11 @@ export default class Form extends React.Component {
     return(
       <form onSubmit={this.onSubmit} className="resqueue-form">
       <h4>Need our assistance?</h4>
+        <div className="form-group">
+          <label>Coordinates></label>
+          <input onChange={this.onChange} value={this.state.longitude} name="longitude" className="form-control" />
+          <input onChange={this.onChange} value={this.state.latitude} name="latitude" className="form-control" />
+        </div>
         <div className="form-group">
           <label>Note</label>
           <input onChange={this.onChange} name="note" className="form-control" placeholder="Note" />
