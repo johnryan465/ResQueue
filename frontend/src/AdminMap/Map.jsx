@@ -17,13 +17,32 @@ const MapWrapper = compose(
     componentDidMount() {
       const DirectionsService = new google.maps.DirectionsService();
       this.setState({ directions: [] })
-
-      for(var index in this.props.routes) {
+      console.log(this.props.routes)
+      for(var route of this.props.routes) {
+      DirectionsService.route({
+        origin: new google.maps.LatLng(route[0].lat, route[0].lng),
+        destination: new google.maps.LatLng(route[route.length - 1].lat, route[route.length - 1].lng),
+        travelMode: google.maps.TravelMode.DRIVING,
+      }, (result, status) => {
+        if (status === google.maps.DirectionsStatus.OK) {
+          let directions = this.state.directions
+          directions.push(result)
+          this.setState({
+            directions,
+          });
+        } else {
+          console.error(`error fetching directions ${result}`);
+        }
+      });
+        for(var index in route) {
+          this.props.points.push({location: {lng: route[index].lng,  lat: route[index].lat}})
           if(index == 0)
             continue
+            console.log(route[index].lat + " " + route[index].lng + " " + route[index - 1].lat + " " + route[index - 1].lng)
+
           DirectionsService.route({
-            origin: new google.maps.LatLng(this.props.routes[index].lat, this.props.routes[index].lng),
-            destination: new google.maps.LatLng(this.props.routes[index - 1].lat, this.props.routes[index - 1].lng),
+            origin: new google.maps.LatLng(route[index].lat, route[index].lng),
+            destination: new google.maps.LatLng(route[index-1].lat, route[index-1].lng),
             travelMode: google.maps.TravelMode.DRIVING,
           }, (result, status) => {
             if (status === google.maps.DirectionsStatus.OK) {
@@ -36,6 +55,7 @@ const MapWrapper = compose(
               console.error(`error fetching directions ${result}`);
             }
           });
+      }
       }
     }
   }))((props) => {

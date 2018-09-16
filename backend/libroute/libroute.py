@@ -19,6 +19,7 @@ def get_clusters(people, vehicle_sizes, dists):
             edges.append((dists[i][j], i, j))
     edges = sorted(edges, reverse=True)
     clusters = []
+    cluster = []
     while edges and vsizes:
         _, u, v = edges.pop()
         if (uf.is_joined(u, v) or
@@ -27,11 +28,19 @@ def get_clusters(people, vehicle_sizes, dists):
             continue  # Used in a cluster already or would cause a loop
         uf.join(u, v)
         cluster = uf.get_cluster(u)
+        print(cluster)
+        print(vsizes[-1])
+        print(len(edges))
         if len(cluster) == vsizes[-1]:
             clusters.append(cluster[:])
             vsizes.pop()
             uf.join(0, u)
+
+    if len(cluster) > 0:
+        clusters.append(cluster[:])
+        
     unsaved = [p for p in range(1, len(people) + 1) if uf.is_alone(p)]
+    print("clusters:" + str(len(clusters)))
     return clusters, unsaved
 
 def get_routes(start, people, vehicle_sizes):
@@ -48,5 +57,5 @@ def get_routes(start, people, vehicle_sizes):
         print(clust_ind)
         cluster_points = [people[idx-1] for idx in clust_ind]
         route = traveling_salesman.tsp_osrm(0, cluster_points, dist, start)
-        sol.routes.append(route[:])
+        sol.routes.append(route)
     return sol
