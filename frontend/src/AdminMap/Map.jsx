@@ -1,24 +1,68 @@
 
+/* global google */
+
 import React from "react"
-import { compose, withProps } from "recompose"
-import { withScriptjs, withGoogleMap, GoogleMap, Polyline, Marker } from "react-google-maps"
+import { compose, withProps, lifecycle } from "recompose"
+import { withScriptjs, withGoogleMap, GoogleMap, DirectionsRenderer, Polyline, Marker } from "react-google-maps"
 import { geolocated } from 'react-geolocated'
 import axios from 'axios'
 
 const MapWrapper = compose(
   withProps({
     googleMapURL: "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyDYwXTA0EicoZg4cvLkEfCG-L_KRo2azCI",
-    key: "AIzaSyDYwXTA0EicoZg4cvLkEfCG-L_KRo2azCI",
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: <div style={{ height: `100%` }} />,
     mapElement: <div style={{ height: `100%` }} />,
-  }), withScriptjs, withGoogleMap
-)((props) => {
-  let polyLines = props.routes.map((route) => <Polyline path={route} />)
+  }), withScriptjs, withGoogleMap, lifecycle({
+    componentDidMount() {
+      /*const DirectionsService = new google.maps.DirectionsService();
+      this.setState({ directions: [] })
+
+      for(var index in this.props.routes) {
+          if(index == 0)
+            continue
+          DirectionsService.route({
+            origin: new google.maps.LatLng(this.props.routes[index].lat, this.props.routes[index].lng),
+            destination: new google.maps.LatLng(this.props.routes[index - 1].lat, this.props.routes[index - 1].lng),
+            travelMode: google.maps.TravelMode.DRIVING,
+          }, (result, status) => {
+            if (status === google.maps.DirectionsStatus.OK) {
+              let directions = this.state.directions
+              directions.push(result)
+              this.setState({
+                directions,
+              });
+            } else {
+              console.error(`error fetching directions ${result}`);
+            }
+          });
+      }*/
+      this.setState({ directions: [] })
+      const DirectionsService = new google.maps.DirectionsService();
+      DirectionsService.route({
+        origin: new google.maps.LatLng(42.4583924, -71.196702),
+        destination: new google.maps.LatLng(42.451019, -71.109161),
+        travelMode: google.maps.TravelMode.DRIVING,
+      }, (result, status) => {
+        if (status === google.maps.DirectionsStatus.OK) {
+          let directions = this.state.directions
+          directions.push(result)
+          this.setState({
+            directions,
+          });
+        } else {
+          console.error(`error fetching directions ${result}`);
+        }
+      });
+    }
+  }))((props) => {
+  let directions = null
+  if(props.directions)
+    directions = props.directions.map((direction) => { return ( <DirectionsRenderer directions={ direction } />)})
   let markers = props.points.map((point) => <Marker position={{lng: point.location.lng, lat: point.location.lat}} />)
   return(<GoogleMap defaultZoom={15} defaultCenter={{ lat: props.startLat, lng: props.startLng }}>
-    { polyLines }
     { markers }
+    { directions }
   </GoogleMap>)
 }
 )
@@ -35,7 +79,7 @@ class Map extends React.Component {
     }
     return (
       <div className="map">
-        <MapWrapper routes={this.props.routes} points={this.props.points} startLat={startLat} startLng={startLng} />
+        <MapWrapper key={this.props.routes.length} routes={this.props.routes} points={this.props.points} startLat={startLat} startLng={startLng} />
       </div>
     )
   }
