@@ -8,6 +8,10 @@
   dependencies:
     regenerator-runtime "^0.12.0"
 
+"@mdi/font@^2.7.94":
+  version "2.7.94"
+  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-2.7.94.tgz#66edca5637d3e2b8f1946cb1bb909bbe92617e67"
+
 abab@^1.0.3:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/abab/-/abab-1.0.4.tgz#5faad9c2c07f60dd76770f71cf025b62a63cfd4e"

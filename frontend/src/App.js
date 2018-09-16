@@ -4,6 +4,7 @@ import MapPage from './MapPage'
 import AdminPanel from './AdminPanel'
 import EditVehiclePage from './EditVehiclePage'
 import AdminMap from './AdminMap'
+import LandingPage from './LandingPage'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import './App.css'
@@ -13,6 +14,7 @@ class App extends Component {
     return (
       <Router>
         <Switch>
+          <Route path="/" exact component={ LandingPage } />
           <Route path="/map" component={ MapPage } />
           <Route path="/admin/vehicles" exact component={ AdminPanel } />
           <Route path="/admin/vehicles/:id" component={ EditVehiclePage } />

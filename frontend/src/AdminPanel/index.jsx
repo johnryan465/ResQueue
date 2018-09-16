@@ -6,9 +6,10 @@ export default class AdminPanel extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      vehicles: [{name: "Ford Bus", size: 12, quantity: 3, id: 4}, {name: "Ford Bus", size: 12, quantity: 3, id: 4}, {name: "Ford Bus", size: 12, quantity: 3, id: 4}]
+      vehicles: []
     }
     this.getVehicles = this.getVehicles.bind(this)
+    this.addVehicle = this.addVehicle.bind(this)
   }
   getVehicles() {
     axios.get("/api/vehicles").then((resp) => {
@@ -17,8 +18,17 @@ export default class AdminPanel extends React.Component {
       })
     })
   }
+  addVehicle() {
+    axios.post("/api/vehicles", {
+      name: "",
+      quantity: 1,
+      size: 5
+    }).then(({data:id}) => {
+      window.location = `/admin/vehicles/${id}`
+    })
+  }
   componentDidMount() {
-    //this.getVehicles()
+    this.getVehicles()
   }
   render() {
     const vehicleRows = this.state.vehicles.map((vehicle) =>
@@ -27,7 +37,7 @@ export default class AdminPanel extends React.Component {
         <td>{vehicle.size}</td>
         <td>{vehicle.quantity}</td>
         <td>
-          <Link to={`/admin/vehicles/${vehicle.id}`}>Edit</Link>
+          <Link to={`/admin/vehicles/${vehicle._id}`}>Edit</Link>
         </td>
       </tr>
     )
@@ -44,6 +54,14 @@ export default class AdminPanel extends React.Component {
           </thead>
           <tbody>
             { vehicleRows }
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>
+                <span onClick={this.addVehicle} className="btn btn-success">Add New Vehicle</span>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>

@@ -6,15 +6,16 @@ export default class EditVehiclePage extends React.Component {
     super(props)
     this.state = {
       name: "",
-      quantity: -1,
-      size: -1
+      quantity: null,
+      size: null
     }
     this.getVehicle = this.getVehicle.bind(this)
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
   getVehicle() {
-    axios.get(`/api/vehicles/${this.props.id}`).then((resp) => {
+    axios.get(`/api/vehicles/${this.props.match.params.id}`).then((resp) => {
+      console.log(resp.data)
       this.setState({
         ...resp.data
       })
@@ -26,10 +27,13 @@ export default class EditVehiclePage extends React.Component {
   onChange(event) {
     let name = event.target.name
     let value = event.target.value
+    if(name != "name") {
+      value = Math.max(value, 2)
+    }
     this.setState({ [name]: value })
   }
   onSubmit(event) {
-    axios.put(`/api/vehicles/${this.props.id}`, {
+    axios.put(`/api/vehicles/${this.props.match.params.id}`, {
       ...this.state
     }).then((data) => {
       window.location = "/admin/vehicles"
@@ -42,15 +46,15 @@ export default class EditVehiclePage extends React.Component {
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
             <label>Name</label>
-            <input onChange={this.onChange} className="form-control" value={this.state.name} />
+            <input onChange={this.onChange} name="name" className="form-control" value={this.state.name} />
           </div>
           <div className="form-group">
             <label>Size</label>
-            <input onChange={this.onChange} className="form-control" value={this.state.size} />
+            <input type="number" onChange={this.onChange} name="size" className="form-control" value={this.state.size} />
           </div>
           <div className="form-group">
             <label>Quantity</label>
-            <input onChange={this.onChange} className="form-control" value={this.state.quantity} />
+            <input type="number" onChange={this.onChange} name="quantity" className="form-control" value={this.state.quantity} />
           </div>
           <input type="submit" className="btn btn-success" />
         </form>
