@@ -40,4 +40,6 @@ def tsp_greedy(start, points, dists):
             break
     return [pts[p] for p in best_path]
 
+#Use OSRM instead
+
 traveling_salesman = tsp_greedy
