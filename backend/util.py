@@ -6,8 +6,8 @@ class Point:
 
     def get_serialisable(self):
         return {
-            'latitude': self.lat,
-            'longitude': self.lng
+            'lat': self.lat,
+            'lng': self.lng
         }
 
     def __str__(self):
@@ -28,4 +28,3 @@ class Solution:
 
     def __repr__(self):
         return str(self)
-
