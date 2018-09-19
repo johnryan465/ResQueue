@@ -8,7 +8,7 @@ import json
 import requests
 
 
-client = MongoClient("mongodb://resqueue:xhCZluztAHMaBa5bhpyBOdizbbdZ9MpzIB86XFFW4heqazNsXud9544V64ASltl7WtTZlRj1vFpgpprKkBVMJA==@resqueue.documents.azure.com:10255/?ssl=true&replicaSet=globaldb")
+client = MongoClient("mongo_url")
 db = client.resqueue
 
 people_table = db.people
@@ -25,7 +25,7 @@ def hello():
 def people():
     if request.method == 'POST':
         data = request.get_json()
-        url = "https://81932d2c-fcd2-4a4c-af44-be9d4a055b9a:64qmiwEFsO@twcservice.mybluemix.net/api/weather/v1/geocode/" + str(data['lat']) + "/"+ str(data['lng'])+ "/alerts.json"
+        url = "ibm_weather_api_key" + str(data['lat']) + "/"+ str(data['lng'])+ "/alerts.json"
         response = requests.request("GET", url)
         rep = json.loads(response.text)
         severity = 1000000
