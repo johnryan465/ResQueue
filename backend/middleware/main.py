@@ -8,7 +8,7 @@ import json
 import requests
 
 
-client = MongoClient("***REMOVED***")
+client = MongoClient("mongo_url")
 db = client.resqueue
 
 people_table = db.people
@@ -25,7 +25,7 @@ def hello():
 def people():
     if request.method == 'POST':
         data = request.get_json()
-        url = "***REMOVED***" + str(data['lat']) + "/"+ str(data['lng'])+ "/alerts.json"
+        url = "ibm_weather_api_key" + str(data['lat']) + "/"+ str(data['lng'])+ "/alerts.json"
         response = requests.request("GET", url)
         rep = json.loads(response.text)
         severity = 1000000
