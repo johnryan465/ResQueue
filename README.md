@@ -1,6 +1,7 @@
 <img src="logo.png" alt="ResQueue Logo"/>
 
-# ResQueue - Making the world a better place
+# ResQueue - Making the world a better place ;)
+
 
 Clone the repo then launch with
 ```
@@ -9,11 +10,5 @@ sh build.sh
 sh launch.sh
 ```
 
-Run these commands to allow deploying to production
 
-
-```
-git remote add live ssh://hackmit@23.96.62.224/~/repo.git
-git push live master
-```
-
+https://devpost.com/software/resqueue-rk7dm8
